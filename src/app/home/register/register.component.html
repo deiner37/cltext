@@ -1,0 +1,125 @@
+<ng-template #content let-c="close" let-d="dismiss" class="fade">
+    <div class="modal-header">
+      <h4 class="modal-title">Register Form</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+                <form role="form" class="mt-4 pl-3" (ngSubmit)="create()" [formGroup]="entityForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="text" class="form-control" tabindex="5" formControlName="firstname" placeholder="Firstname *" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('firstname').invalid && (entityForm.get('firstname').dirty || entityForm.get('firstname').touched), 
+                                    'is-valid': entityForm.get('firstname').valid && (entityForm.get('firstname').dirty || entityForm.get('firstname').touched) 
+                                }">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="text" class="form-control" tabindex="6" formControlName="lastname" placeholder="Lastname *" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('lastname').invalid && (entityForm.get('lastname').dirty || entityForm.get('lastname').touched), 
+                                    'is-valid': entityForm.get('lastname').valid && (entityForm.get('lastname').dirty || entityForm.get('lastname').touched) 
+                                }">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="text" class="form-control" tabindex="7" formControlName="city" placeholder="City" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('city').invalid && (entityForm.get('city').dirty || entityForm.get('city').touched), 
+                                    'is-valid': entityForm.get('city').valid && (entityForm.get('city').dirty || entityForm.get('city').touched) 
+                                }">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="text" class="form-control" tabindex="8" formControlName="state" placeholder="State" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('state').invalid && (entityForm.get('state').dirty || entityForm.get('state').touched), 
+                                    'is-valid': entityForm.get('state').valid && (entityForm.get('state').dirty || entityForm.get('state').touched) 
+                                }">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input  type="text" class="form-control" tabindex="9" formControlName="address" placeholder="Address" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('address').invalid && (entityForm.get('address').dirty || entityForm.get('address').touched), 
+                                    'is-valid': entityForm.get('address').valid && (entityForm.get('address').dirty || entityForm.get('address').touched) 
+                                }">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="text" class="form-control" tabindex="10" formControlName="province" placeholder="Province" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('province').invalid && (entityForm.get('province').dirty || entityForm.get('province').touched), 
+                                    'is-valid': entityForm.get('province').valid && (entityForm.get('province').dirty || entityForm.get('province').touched) 
+                                }">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="number" class="form-control" tabindex="11" formControlName="zip" placeholder="ZIP" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('zip').invalid && (entityForm.get('zip').dirty || entityForm.get('zip').touched), 
+                                    'is-valid': entityForm.get('zip').valid && (entityForm.get('zip').dirty || entityForm.get('zip').touched) 
+                                }">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="tel" class="form-control" tabindex="12" formControlName="phonenumber" placeholder="Phone Number" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('phonenumber').invalid && (entityForm.get('phonenumber').dirty || entityForm.get('phonenumber').touched), 
+                                    'is-valid': entityForm.get('phonenumber').valid && (entityForm.get('phonenumber').dirty || entityForm.get('phonenumber').touched) 
+                                }">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="email" class="form-control" tabindex="14" formControlName="email" placeholder="Email *" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('email').invalid && (entityForm.get('email').dirty || entityForm.get('email').touched), 
+                                    'is-valid': entityForm.get('email').valid && (entityForm.get('email').dirty || entityForm.get('email').touched) 
+                                }">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="password" class="form-control" tabindex="15" formControlName="password" placeholder="Password" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('password').invalid && (entityForm.get('password').dirty || entityForm.get('password').touched), 
+                                    'is-valid': entityForm.get('password').valid && (entityForm.get('password').dirty || entityForm.get('password').touched) 
+                                }">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  type="password" class="form-control" tabindex="16" formControlName="confirm_password" placeholder="Confirm Password *" [ngClass]="{ 
+                                    'is-invalid': entityForm.get('confirm_password').invalid && (entityForm.get('confirm_password').dirty || entityForm.get('confirm_password').touched), 
+                                    'is-valid': entityForm.get('confirm_password').valid && (entityForm.get('confirm_password').dirty || entityForm.get('confirm_password').touched) 
+                                }">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 text-right">
+                            <button type="submit" class="btn btn-primary float-right btn-sm" title="Save" [disabled]="entityForm.invalid || this.entityForm.disabled"><i class="fas fa-save"></i> Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </ng-template>

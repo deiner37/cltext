@@ -1,0 +1,21 @@
+<div class="row text-left" style="margin:0px;">
+	<div class="col">
+		<table>
+			<tbody>
+				<tr>
+					<td style="padding-top: 20px; border:none" >
+    					<label class="control-label">Page No</label>
+    				</td>
+    				<td style="border:none"> 
+			    		<select class="form-control" [(ngModel)]='page' style="width:50px" (change)="onPage($event)">
+			    			<option *ngFor="let pageNum of getPages()" value="{{pageNum}}">{{pageNum}}</option>			    		
+						</select>
+			    	</td>
+			    	<td style="padding-top: 20px; border:none">
+    					<label class="control-label">of {{ pagesToShow }}</label>
+    				</td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>
+</div>

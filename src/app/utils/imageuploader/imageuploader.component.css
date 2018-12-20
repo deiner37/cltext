@@ -1,0 +1,50 @@
+.profile-picture {
+  position: relative;
+  z-index: 1;
+  width: 200px;
+  height:200px;
+  background-image:url(/assets/images/profile-placeholder.png);
+  background-size: contain;
+  border-radius: 1em;
+  margin-left: calc(50% - 105px);
+}
+
+.profile-picture img {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  z-index: 2;
+  border-radius: 1em;
+  left: 0px;
+}
+
+.profile-picture label {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    z-index: 3;
+    display: none;
+}
+
+.profile-picture:HOVER label {
+    display: inline-block;
+}
+
+.profile-picture .drag-over .infotext {
+  color: white;
+  border: dashed 5px white;
+}
+
+.profile-picture .infotext {
+  margin-left: 5px;
+  margin-top: 5px;
+  height: 190px;
+  width: 190px;
+  vertical-align: middle;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  border: dashed 3px rgba(255,255,255,0.8);
+  border-radius: 10px;
+  padding-top: 110px;
+  font-size: 150%;
+}

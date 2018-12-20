@@ -1,0 +1,7 @@
+<div class="profile-picture" (click)="onContainerClick()">
+	<img *ngIf="imageurl" src="{{imageurl}}" />
+  	<label for="uploader-input" ng2FileDrop [ngClass]="{'drag-over': hasDragOver}" (fileOver)="fileOver($event)">
+    	<div class="infotext"><span>Click to change</span></div>
+  	</label>
+  	<input #fileInput type="file" ng2FileSelect style="display:none" (change)="onChangeFile($event.target)" accept="image/*"/>
+</div>

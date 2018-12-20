@@ -1,0 +1,55 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand logolink ml-3 mr-5" href="#"> 
+    <img id="cclogo" src="assets/images/logo.png" style="width: 90px">
+  </a>
+
+	<div class="collapse navbar-collapse ml-3" id="mainNavbar">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <div class="input-group input-group-sm"> 
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{search.label}}</button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" (click)="$event.preventDefault(); search.id = null; search.label = 'All';">All</a>
+              <a class="dropdown-item" href="#" *ngFor="let cat of categories" (click)="$event.preventDefault(); search.id = cat.id; search.label = cat.name;" style="text-transform: capitalize">{{cat.name}}</a>
+            </div>
+          </div>
+          <input type="text" class="form-control" id="searchfilter" (keydown)="searchProducts($event)" [(ngModel)]="search.text">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="my-2 my-lg-0 dropdown">
+      <a *ngIf="!authService.hasSession()" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Hola, Identificate
+      </a>
+      <div *ngIf="!authService.hasSession()" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+        <form class="px-4 py-3" (ngSubmit)="login()" [formGroup]="loginForm" role="form" novalidate>
+          <div class="form-group">
+            <label for="exampleDropdownFormEmail1">Email address</label>
+            <input type="email" class="form-control" formControlName="username" placeholder="email@example.com">
+          </div>
+          <div class="form-group">
+            <label for="exampleDropdownFormPassword1">Password</label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary mt-2" [disabled]="loginForm.invalid">Sign in</button>
+        </form>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#" (click)="$event.preventDefault(); openRegisterForm()">New around here? Sign up</a>
+      </div>
+    </div>
+	</div>
+</nav>
+<div [ngClass]="" class="maincontent container-fluid">
+  <router-outlet class="mt-2" style="height: 100%;"></router-outlet>
+</div>
+<app-register #register (onSuccess)="onSuccessRegister()"></app-register>
