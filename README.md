@@ -10,6 +10,10 @@ Run `npm install` to installs a package, and any packages that it depends on.
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## 3rd Step - Run Server
+## 3rd Step - Setting 
 
-Run `node serber.js` on root folder to execute server.
+Open `server/config/config.js` and set the database connection parameters.
+
+## 4th Step - Run Server
+
+Run `node server.js` on root folder to execute server.
