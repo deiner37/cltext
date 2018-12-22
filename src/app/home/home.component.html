@@ -27,11 +27,11 @@
         </div>
       </li>
     </ul>
-    <div class="my-2 my-lg-0 dropdown">
-      <a *ngIf="!authService.hasSession()" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Hola, Identificate
+    <div class="my-2 my-lg-0 dropdown" *ngIf="!authService.hasSession()">
+      <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Hello, Sing In
       </a>
-      <div *ngIf="!authService.hasSession()" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+      <div  class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
         <form class="px-4 py-3" (ngSubmit)="login()" [formGroup]="loginForm" role="form" novalidate>
           <div class="form-group">
             <label for="exampleDropdownFormEmail1">Email address</label>
@@ -47,9 +47,39 @@
         <a class="dropdown-item" href="#" (click)="$event.preventDefault(); openRegisterForm()">New around here? Sign up</a>
       </div>
     </div>
+    <ul class="navbar-nav my-2 my-lg-0" style="margin-right: 20px;" *ngIf="authService.hasSession()">
+        <li class="nav-item"  style="padding: 5px 1px">
+          <a href="/admin" class="nav-link" role="button"> 
+            <span class="fa-layers fa-fw headericons"> 
+              <i class="fas fa-cogs fa-1x"></i> 
+            </span>
+          </a>
+        </li>
+        <li class="nav-item carticon"  style="padding: 5px 1px">
+          <a href="#" *ngIf="cartService.countProducts > 0" class="nav-link"  data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" [routerLink]="['/shoppingcart']"> 
+            <span class="fa-layers fa-fw headericons"> 
+              <i class="fas fa-shopping-cart fa-1x"></i>
+              <span *ngIf="cartService.countProducts > 0" class="fa-layers-counter" style="background: Tomato">{{ cartService.countProducts }}</span>
+            </span>
+          </a>
+          <a href="#" *ngIf="cartService.countProducts == 0" class="nav-link"  data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" (click)="$event.preventDefault()"> 
+              <span class="fa-layers fa-fw headericons"> 
+                <i class="fas fa-shopping-cart fa-1x"></i>
+              </span>
+            </a>
+        </li>
+        <li class="nav-item dropdown"  style="padding: 5px 1px">
+          <a href="#" class="nav-link dropdown-toggle"  data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> 
+              Hello, {{ authService.getUser().firstname + ' ' + authService.getUser().lastname}}
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault(); logout();">Logout</a>
+          </div>
+        </li>
+    </ul>
 	</div>
 </nav>
-<div [ngClass]="" class="maincontent container-fluid">
+<div [ngClass]="" class="maincontent container-fluid mt-4">
   <router-outlet class="mt-2" style="height: 100%;"></router-outlet>
 </div>
 <app-register #register (onSuccess)="onSuccessRegister()"></app-register>

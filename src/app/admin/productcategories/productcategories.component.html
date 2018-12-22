@@ -1,0 +1,34 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="row mt-2 ml-1">
+  <a href="#" class="btn btn-link bluecolor" role="button" aria-pressed="true" (click)="$event.preventDefault(); openCreateForm()">
+    <i class="fa fa-plus"></i> Add new Category
+  </a>
+</div>
+<div class="row mt-3">
+  <div class="col">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">NAME</th>
+          <th scope="col">DESCRIPTION</th>
+          <th scope="col" style="min-width: 160px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of entities; index as i">
+          <td scope="col">{{ item.name }}</td>
+          <td scope="col">{{ item.description }}</td>
+          <td scope="col" class="text-right">
+            <!--REMOVE-->
+            <button type="button" placement="left" class="btn btn-outline-danger btn-sm" (click)="confirmClicked = false; cancelClicked = false"
+              mwlConfirmationPopover [popoverTitle]="popoverTitle" [popoverMessage]="popoverMessage" (confirm)="confirmClicked = true; remove(item, e)"
+              (cancel)="cancelClicked = true" confirmButtonType="danger" cancelButtonType="default">
+              <i class="fa fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-create #create (onSuccess)="refresh()"></app-create>

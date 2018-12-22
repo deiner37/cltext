@@ -45,6 +45,12 @@ import {
 import {AdminComponent} from './admin.component';
 import {AdminRouting} from './admin.routing';
 import {UserService} from '../services/user.service';
+import { ProductsComponent } from './products/products.component';
+import { ProductcategoriesComponent } from './productcategories/productcategories.component';
+import { CreateComponent } from './productcategories/create/create.component';
+import { CreateProductComponent } from './products/create/create.component';
+import { InvoicesComponent } from './invoices/invoices.component';
+import { ProductlistComponent } from './invoices/productlist/productlist.component';
 
 @NgModule({
   imports: [
@@ -91,7 +97,7 @@ import {UserService} from '../services/user.service';
     LoadingModule,
     AdminRouting,
   ],
-  declarations: [AdminComponent],
+  declarations: [AdminComponent, ProductsComponent, ProductcategoriesComponent, CreateComponent, CreateProductComponent, InvoicesComponent, ProductlistComponent, ProductlistComponent],
   providers: [
     UserService
   ],

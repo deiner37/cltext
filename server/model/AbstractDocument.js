@@ -112,6 +112,7 @@ module.exports = AbstractClass.extend({
     	var me = this;
     	var found = false;
     	_.each(me.attributes, function(sett, name){
+			//console.log(name, prop, name == prop)
     		if(name == prop) found = true;
     	});
     	return found;
@@ -121,7 +122,7 @@ module.exports = AbstractClass.extend({
     	var values = {};
     	_.each(me.attributes, function(prop, name){
     		var val = me.get(name);
-    		if(val != undefined) values[name] = val;
+    		if(val != undefined) values[me.getColnameFromProperty(name)] = val;
     		else{
     			if(prop['default']){
     				if(_.isFunction(prop['default'])){
@@ -176,5 +177,10 @@ module.exports = AbstractClass.extend({
 	},
 	getRepositoryName: function(){
 		return this.repository;
-	}
+	},
+	getColnameFromProperty: function(propname){
+		var me = this;
+		if(me.attributes[propname]) return me.attributes[propname].col;
+		return null;
+	},
 });

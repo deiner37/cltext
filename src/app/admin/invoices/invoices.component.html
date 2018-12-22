@@ -1,0 +1,29 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="row mt-2 ml-1"></div>
+<div class="row mt-3">
+  <div class="col">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">DATE</th>
+          <th scope="col">USER</th>
+          <th scope="col">PRODUCTS</th>
+          <th scope="col">TOTAL</th>
+          <th scope="col" style="min-width: 160px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of invoices; index as i">
+          <td scope="col">{{ moment(item.entrydate).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+          <td scope="col">{{ item.user.firstname + ' ' + item.user.lastname }}</td>
+          <td scope="col" class="text-center"><a href="#" (click)="$event.preventDefault(); showInvoiceProducts(item)">{{ item.products.length }}</a></td>
+          <th scope="row" class="text-center">${{ item.total }}</th>
+          <td scope="col" class="text-right">
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-productlist #productlist></app-productlist>

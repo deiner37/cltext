@@ -7,6 +7,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-boot
 import { NotificationsService } from '../../utils/notifications/components';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { UserModel } from '../../models/user.model';
 
 function passwordConfirming(c: AbstractControl): any {
   if(!c.parent || !c) return;
@@ -71,7 +72,6 @@ export class RegisterComponent implements OnInit {
       province:new FormControl(null),
       zip:new FormControl(null),
       phonenumber:new FormControl(null),
-      altphone:new FormControl(null),
       email:new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
       confirm_password: new FormControl(null, [Validators.required, passwordConfirming]),
@@ -83,11 +83,14 @@ export class RegisterComponent implements OnInit {
     let me = this;
     if(me.entityForm.valid) {
       let values = me.entityForm.getRawValue(); 
+      delete values['confirm_password'];
+      let user = new UserModel(values);
       me.loading = true;
-      me.userService.create(values).then(function(res){
+      me.userService.create(user).then(function(res){
+        me.loading = false;
         console.log(res);
+        me.close()
       });
-      
     }
   }
 }

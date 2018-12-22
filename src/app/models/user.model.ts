@@ -13,6 +13,6 @@ export class UserModel extends AbstractEntity {
 		Object.assign(this, values);
 	}
 	getSlug(): string{
-		return 'admin/security/user';
+		return 'admin/user';
 	}
 }

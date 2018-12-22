@@ -16,8 +16,10 @@ export abstract class EntityServiceAbstract {
 
     public create(entity: AbstractEntity): Promise<any> {
         let me = this;
+        let Model = me.getModel();
+        var model = new Model();
         return new Promise(function(resolve, reject) {
-            let url = globalVars.server + '/' + entity.getSlug() + '/';
+            let url = globalVars.server + '/' + model.getSlug() + '/';
             me.http.post(url, entity).subscribe(function(resp) {
                 resolve(resp);
             }, function(err) {
@@ -34,7 +36,9 @@ export abstract class EntityServiceAbstract {
     public update(entity: AbstractEntity): Promise<any> {
         let me = this;
         return new Promise(function(resolve, reject) {
-            let url = globalVars.server + '/' + entity.getSlug() + '/' + entity.get('id');
+            let Model = me.getModel();
+            var model = new Model();
+            let url = globalVars.server + '/' + model.getSlug() + '/' + entity.id;
             me.http.put(url, entity).subscribe(function(resp) {
                 resolve(resp);
             }, function(err) {
@@ -51,7 +55,9 @@ export abstract class EntityServiceAbstract {
     public remove(entity: AbstractEntity): Promise<any> {
         let me = this;
         return new Promise(function(resolve, reject) {
-            let url = globalVars.server + '/' + entity.getSlug() + '/' + entity.get('id');
+            let Model = me.getModel();
+            var model = new Model();
+            let url = globalVars.server + '/' + model.getSlug() + '/' + entity.id;
             me.http.delete(url).subscribe(function(resp) {
                 resolve(resp);
             }, function(err) {

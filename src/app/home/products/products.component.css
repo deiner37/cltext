@@ -1,0 +1,16 @@
+.list-group-item {
+    padding: 7px;
+    margin-bottom: -1px;
+    border: none !important;
+}
+.list-group-item.active {
+    z-index: 2;
+    color: #007bff;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    text-decoration:  #007bff;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    opacity: 1;
+}

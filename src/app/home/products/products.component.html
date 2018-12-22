@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="row">
+      <div class="col">
+        <h5 class="text-secondary">Show results for</h5>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="list-group">
+                <a href="#" *ngFor="let cat of categories" routerLinkActive="active" [routerLink]="['/' + cat.id]" class="list-group-item list-group-item-action">{{cat.name}}</a>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="card float-left ml-3 mb-3" style="width: 16rem;" *ngFor="let prod of products">
+      <img class="card-img-top" src="assets/images/image-not-found.png" alt="Product picture not found" style="cursor: pointer" (click)="viewProduct(prod)">
+      <div class="card-body" style="height: 170px; overflow-y: auto">
+        <h6 class="card-title mb-0" style="cursor: pointer" (click)="viewProduct(prod)">{{ prod.name }}</h6>
+        <small class="mb-2 text-muted mt-0"><b>$</b> {{prod.value}}</small>
+        <p class="card-text mt-2">{{ prod.description | slice:0:128 }} {{ prod.description.length > 128 ? ' ...' : '' }}</p>
+        <div *ngIf="authService.hasSession()">
+          <input type="number" min="1" class="form-control float-left form-control-sm mr-2 mt-1" style="width: 50px" [(ngModel)]="prod.count">
+          <a *ngIf="authService.hasSession()" href="#" class="btn btn-danger btn-sm mt-1 float-left" (click)="$event.preventDefault(); addToCart(prod)">
+            <i class="fas fa-shopping-cart fa-1x"></i> Add to cart
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

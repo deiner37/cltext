@@ -20,6 +20,9 @@ import { PaginationComponent } from './utils/pagination/pagination.component';
 import { LoadingModule } from 'ngx-loading';
 import { ProductCategoryService } from './services/productcategory.service';
 import { ProductService } from './services/product.service';
+import { UserService } from './services/user.service';
+import { CartService } from './services/cart.service';
+import { InvoiceService } from './services/invoice.service';
 
 
 @NgModule({
@@ -49,7 +52,10 @@ import { ProductService } from './services/product.service';
     },
     NotificationsService,
     ProductCategoryService,
-    ProductService
+    ProductService,
+    UserService,
+    CartService,
+    InvoiceService
   ],
   bootstrap: [AppComponent]
 })

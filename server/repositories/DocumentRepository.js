@@ -50,6 +50,12 @@ module.exports = AbstractClass.extend({
 		if(!conditions) conditions = {};
 		return new Promise(function(resolve, reject){
 			me.dbconnector.findBy(conditions, order, skip, limit).then(function(rows){
+				if(rows){
+					for(let r in rows){
+						rows[r][me.model.identifier] = rows[r][me.model.getColnameFromProperty(me.model.identifier)];
+						delete rows[r][me.model.getColnameFromProperty(me.model.identifier)];
+					}
+				}
 				resolve(rows);
 			}).catch(function(e){
 				reject(e);
@@ -64,7 +70,6 @@ module.exports = AbstractClass.extend({
 		}
 		return new Promise(function(resolve, reject){	
 			me.dbconnector.getCount(conditions).then(function(count){
-				//console.log("Mongo Count: " + count);
 				resolve(count);
 			}).catch(function(e){
 				console.trace(e);
@@ -104,7 +109,8 @@ module.exports = AbstractClass.extend({
 	save: function(model){
 		var me = this;
 		return new Promise(function(resolve, reject){	
-            let values = model.getValues();
+			let values = model.getValues();
+			delete values[model.identifier];
 			me.dbconnector.save(values).then(function(data){
 				model.set(model.identifier, data.id);
 				resolve(data);
@@ -116,8 +122,8 @@ module.exports = AbstractClass.extend({
 	update: function(model){
 		var me = this;
 		var cond = {};
-		cond[me.model.getColnameFromProperty(this.model.identifier)] =  model.get(me.model.identifier);
-		let values = model.getValues();
+		cond[me.model.getColnameFromProperty(this.model.identifier)] =  model[me.model.identifier];
+		let values = _.isFunction(model) ? model.getValues() : model;
 		//console.log("\n\nUPDATE VALUES  FOR " +  model.className + " :", values);
 		return new Promise(function(resolve, reject){	
 			me.dbconnector.update(cond, values).then(function(){
@@ -131,7 +137,7 @@ module.exports = AbstractClass.extend({
 	remove: function(model){
 		var me = this;
 		var cond = {};
-		cond[me.model.getColnameFromProperty(this.model.identifier)] =  model.get(me.model.identifier);
+		cond[me.model.getColnameFromProperty(this.model.identifier)] =  model[me.model.identifier];
 		return new Promise(function(resolve, reject){	
 			me.dbconnector.remove(cond).then(function(){
 				resolve();

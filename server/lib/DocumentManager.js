@@ -17,7 +17,7 @@ module.exports = AbstractModel.extend({
     getRepository: function(className){
         var me = this;
         return new Promise(function(resolve, reject){
-            me.getClassFromClassName().then(function(Document){
+            me.getClassFromClassName(className).then(function(Document){
                 let document = new Document();
                 var Repository = require('../repositories/' + document.getRepositoryName()); 
                 var repo = new Repository(document, me.app);
@@ -41,14 +41,21 @@ module.exports = AbstractModel.extend({
                 if(files && files.length > 0){
                     files.forEach(file => {
                         var Document = require(cpath + '/' + file);
-                        if(Document.className==className){
-                            found=true;
-                            resolve(Document);
+                        try{
+                            if(typeof Document == 'function'){
+                                let document = new Document();
+                                if(document.getClassName()==className){
+                                    found=true;
+                                    resolve(Document);
+                                }
+                            }
+                        }catch(e){
+                            console.error(e, file);
                         }
                     });
                 }
                 if(!found){
-                    reject('Class not found');
+                    reject('Class "' + className + '" not found');
                 }
                 //resolve(cfiles);
             })
@@ -57,7 +64,7 @@ module.exports = AbstractModel.extend({
     getDocumentByClassName: function(classname){
         let me = this;
         return new Promise(function(resolve, reject){
-            me.getClassFromClassName().then(function(Document){
+            me.getClassFromClassName(classname).then(function(Document){
                 resolve(Document);
             }).catch(function(msg){
                 reject(msg);

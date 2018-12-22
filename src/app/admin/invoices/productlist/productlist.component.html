@@ -1,0 +1,28 @@
+<ng-template #content let-c="close" let-d="dismiss" class="fade">
+  <div class="modal-header">
+    <h4 class="modal-title">Register Form</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <ul class="list-unstyled mt-2">
+          <li class="media pt-3" *ngFor="let pro of products">
+            <img class="mr-3" src="assets/images/image-not-found.png" style="width: 64px; height: 64px;" alt="Generic placeholder image">
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">{{pro.name}}</h5>
+              <div class="mb-2">
+                  <small class="float-left text-muted">Count: {{ pro.count }}</small>
+                  <small class="ml-3 float-left text-muted">Price: {{ pro.price }}</small>
+                  <small class="ml-3 float-left text-muted">Total: {{ pro.total }}</small>
+              </div>
+              <p class="mt-4">{{pro.description}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-template>

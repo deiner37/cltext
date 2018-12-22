@@ -1,0 +1,19 @@
+.dropdown-menu-right{
+    left:auto !important;
+    right: 0px  !important;
+}
+.headericons{
+    position: relative;
+}
+.list-group-item {
+    padding: 7px;
+    margin-bottom: -1px;
+    border: none !important;
+}
+.list-group-item.active {
+    z-index: 2;
+    color: #007bff;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    text-decoration:  #007bff;
+}

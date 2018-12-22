@@ -8,12 +8,16 @@ module.exports = AbstractModel.extend({
 			'col': '_id',
 			'pk': true
 		},
+		'deleted':{
+			col: 'deleted',
+			default: false
+		},
 		'name':{
 			col: 'name',
 			'default': ''
         },
         'description':{
-			col: 'name',
+			col: 'description',
 			'default': ''
         },
         'entrydate':{

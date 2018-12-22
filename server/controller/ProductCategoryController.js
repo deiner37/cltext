@@ -1,7 +1,7 @@
 var Controller = require('../model/CRUDController');
 module.exports = Controller.extend({
 	documentName: 'ProductCategory',
-	slug: 'admin/product/categories',
+	slug: 'main/product/category',
 	className: 'ProductCategoryController',
 	routes: {
 		/*'password': {

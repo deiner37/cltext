@@ -5,7 +5,8 @@ export class ProductModel extends AbstractEntity {
 	name: string;
 	description: string;
     value: number;
-    category: ProductCategoryModel;
+	category: ProductCategoryModel;
+	count: number = 1;
 	constructor(values: Object = {}) {
 		super();
 		Object.assign(this, values);

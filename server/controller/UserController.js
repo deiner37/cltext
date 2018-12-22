@@ -1,5 +1,6 @@
 var Controller = require('../model/CRUDController');
 var jwt = require('jwt-simple');
+var moment = require('moment');
 module.exports = Controller.extend({
 	documentName: 'User',
 	className: 'UserController',
@@ -25,7 +26,6 @@ module.exports = Controller.extend({
 		var data = me.getRequestData(req);
 		var username = data.username;
 		var pass = data.password;
-		console.log("CheckLogin: ", username, pass);
 		if (!username || !pass) throw "User or Password can not be null.";
 		me.securityManager.authenticate(username, pass).then(function (user) {
 			delete user.password;
@@ -43,7 +43,7 @@ module.exports = Controller.extend({
 			let response = {
 				token: token,
 				expires: expires,
-				user: jsonuser
+				user: user
 			}
 			res.status(201).json(response);
 
@@ -68,5 +68,28 @@ module.exports = Controller.extend({
 		res.status(200).json({
 			success: true
 		});
+	},
+	beforeSave: function(entity){
+		let me = this;
+		return new Promise(function(resolve, reject){
+			me.app.get('document_manager').getRepository(me.documentName).then(function(repo){
+				repo.findBy({
+					'email': entity.get('email')
+				}).then(rows => {
+					if(rows && rows.length > 0){
+						reject("Email already exists");
+						return;
+					}
+					me.app.get('security_manager').encodePassword(entity.get('password')).then(function(passencoded){
+						entity.set("password", passencoded);
+						resolve(entity);
+					}).catch(function(e){
+						console.error(e)
+					});
+				});
+				
+			});
+		});
+		
 	}
 });

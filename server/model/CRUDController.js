@@ -42,7 +42,7 @@ module.exports = Controller.extend({
 	initialize: function(app){
 		var me = this;
 		me.app = app;
-		me.app.get('document_manager').getDocumentByClassName(this.documentName).then(function(Document){
+		me.app.get('document_manager').getDocumentByClassName(me.documentName).then(function(Document){
 			me.model = Document;
 		});
 	},
@@ -64,7 +64,7 @@ module.exports = Controller.extend({
 				}
 				var success = function(data, document){
 					return new Promise(function(resolve, reject){
-						document.set("deleted", true);
+						document.deleted = true;
 						repo.update(document);
 						resolve();
 					});
@@ -174,7 +174,7 @@ module.exports = Controller.extend({
 		if(data['id']) delete data['id'];
 		if(_.isEmpty(data)) throw "No value for save";
 		me.app.get('document_manager').getRepository(me.documentName).then(function(repo){
-			me.app.get('document_manager').getDocumentByClassName(this.documentName).then(function(Document){
+			me.app.get('document_manager').getDocumentByClassName(me.documentName).then(function(Document){
 				let newDocument = new Document();
 				newDocument.setObject(data);
 				if(_.isFunction(me.beforeSave)){
@@ -193,11 +193,11 @@ module.exports = Controller.extend({
 									'id': newentity.get('id')
 								});
 							}
-						});
+						})
 					}).catch(function(error){
 						console.log(error);
 						res.status(500).json({
-							'message': error.stack,
+							'message': error,
 						});
 					});
 				}else{
@@ -223,7 +223,7 @@ module.exports = Controller.extend({
 	list: function(req, res){
 		var me = this;
 		var data = me.getRequestData(req);
-		var page = data.page || 1;
+		var page = data.page || 0;
 		let limit = data.per_page || 100;
 		limit = _.isString(limit) ? parseInt(limit) : limit;
 		page = _.isString(page) ? parseInt(page) : page;
@@ -232,31 +232,56 @@ module.exports = Controller.extend({
 			'deleted': false
 		};
 		me.app.get('document_manager').getRepository(me.documentName).then(function(repo){
-			repo.findAll(start, limit).then(entities => {
-				/*let exclude =  (me.excludeExtra && me.excludeExtra.length > 0) ? _.union(me.model.excludeAttr, me.excludeExtra) : me.model.excludeAttr;
-				_.each(entities, function(row, k){
-					_.each(exclude, function(p){
-						// console.log(p, _.has(row.dataValues, p),
-						// row.dataValues);
-						if(_.has(row, p) > -1) delete entities[k][p];
-					})
-				});*/
-				repo.getCount().then(count => {
-					var params = {
-						data: entities,
-						total: count,
-					};
-					if(me.beforeList){
-						me.beforeList(params).then(function(data){
-							res.status(200).json(data);
+			if(me.beforeList){
+				me.beforeList(query, data).then(function(query){
+					repo.findBy(query, null, start, limit).then(entities => {
+						repo.getCount(query).then(count => {
+							var params = {
+								data: entities,
+								total: count,
+							};
+							if(me.afterList){
+								me.afterList(params).then(function(data){
+									res.status(200).json(data);
+								}).catch(function(e){
+									console.log(error);
+									res.status(500).json({
+										'message': error,
+									});
+								});
+							}else{
+								res.status(200).json(params);
+							}
 						});
-					}else{
-						res.status(200).json(params);
-					}
-					
-
+					});
+				}).catch(function(e){
+					console.log(error);
+					res.status(500).json({
+						'message': error,
+					});
 				});
-			});
+			}else{
+				repo.findBy(query, null, start, limit).then(entities => {
+					repo.getCount().then(count => {
+						var params = {
+							data: entities,
+							total: count,
+						};
+						if(me.afterList){
+							me.afterList(params).then(function(data){
+								res.status(200).json(data);
+							}).catch(function(e){
+								console.log(error);
+								res.status(500).json({
+									'message': error,
+								});
+							});
+						}else{
+							res.status(200).json(params);
+						}
+					});
+				});
+			}
 		});
 	},
 	getById: function(req, res){

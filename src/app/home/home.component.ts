@@ -5,9 +5,14 @@ import { ResponseModel } from '../models/response.model';
 import { _ } from 'core-js';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Event, NavigationStart, NavigationEnd, Params } from '@angular/router';
 import { NotificationsService } from '../utils/notifications/components';
 import { RegisterComponent } from './register/register.component';
+import { ProductService } from '../services/product.service';
+import { ProductModel } from '../models/product.model';
+import { CartService } from '../services/cart.service';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +21,11 @@ import { RegisterComponent } from './register/register.component';
 })
 export class HomeComponent implements OnInit {
   categories: Array<ProductCategoryModel>;
+  products: Array<ProductModel>;
   loginForm: FormGroup;
   loading: boolean = false;
+  paramsSubscribe: Subscription;
+  
   search = {
     'id': null,
     'label': 'All',
@@ -26,23 +34,40 @@ export class HomeComponent implements OnInit {
   @ViewChild('register') registerModal:RegisterComponent;
 
   constructor(protected productCategoryService: ProductCategoryService,
+            protected productService: ProductService,
             protected authService: AuthService, 
             private router:Router,
-            private notification: NotificationsService) {
+            private notification: NotificationsService,
+            public activatedRoute: ActivatedRoute,
+            public cartService: CartService) {
     let me = this;
     productCategoryService.list().then(function(res: ResponseModel){
       me.categories = res.data;
     });
+    this.router.events.subscribe((event : Event) => {
+      if(event instanceof NavigationEnd) {
+         //An event triggered when navigation ends successfully.
+         me.refreshSearch();
+      }
+    });
     me.createLoginForm();
   }
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  refreshSearch(): void{
+    let me = this;
+    me.search.id = null;
+    me.search.label = 'All';
+    me.search.text = null;
+  }
+
   createLoginForm(): void{
     this.loginForm = new FormGroup({
       username:new FormControl(null, [Validators.required, Validators.email]),
       password:new FormControl(null, Validators.required),
     });
   }
-
   searchProducts(event): void{
     if(event.keyCode == 13) {
       //alert('you just clicked enter');
@@ -52,11 +77,21 @@ export class HomeComponent implements OnInit {
   }
   applyFilter(): void{
     let me = this;
-    let filter = {};
-    if(me.search.text) filter['name'] = me.search.text;
-    if(me.search.id) filter['category'] = me.search.id;
+    if(me.search.id && me.search.text && me.search.text != ''){
+      me.router.navigate(['/', me.search.id], { 
+        queryParams: { 
+          pn: me.search.text
+        }
+      });
+    }else if(me.search.text && me.search.text != ''){
+      me.router.navigate(['/'], { 
+        queryParams: {
+          pn: me.search.text
+        }
+      });
+    }
 
-    if(Object.keys(me.search).length > 0){
+    /*if(Object.keys(me.search).length > 0){
       me.productCategoryService.list({
         filter: JSON.stringify(filter)
       }).then(function(res: ResponseModel){
@@ -66,7 +101,7 @@ export class HomeComponent implements OnInit {
       me.productCategoryService.list().then(function(res: ResponseModel){
         me.categories = res.data;
       });
-    }
+    }*/
   }
   login(): void{
     let me = this;
@@ -74,7 +109,7 @@ export class HomeComponent implements OnInit {
       let values = this.loginForm.getRawValue(); 
       this.loading = true;
       this.authService.login(values).then((logged) => {
-          if(logged) location.reload();
+          //if(logged) location.reload();
           me.loading = false;
       }).catch((err) => {
           me.loading = false;
@@ -93,5 +128,13 @@ export class HomeComponent implements OnInit {
   onSuccessRegister():void{
       this.registerModal.close();
       location.reload();
+  }
+  logout(): void{
+    let me = this;
+    me.loading=true;
+    me.authService.logout().then(function(){
+      me.loading=false;
+      location.reload();
+    });
   }
 }

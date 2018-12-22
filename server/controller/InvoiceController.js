@@ -1,8 +1,8 @@
 var Controller = require('../model/CRUDController');
 module.exports = Controller.extend({
-	documentName: 'ShopingCart',
-	slug: 'shopingcart',
-	className: 'ChoppingCartController',
+	documentName: 'Invoice',
+	slug: 'invoice',
+	className: 'InvoiceController',
 	routes: {
 		/*'password': {
 			path: '/password/:id',

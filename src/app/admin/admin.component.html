@@ -1,3 +1,36 @@
-<p>
-  admin works!
-</p>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand logolink ml-3 mr-5" href="#"> 
+    <img id="cclogo" src="assets/images/logo.png" style="width: 90px">
+  </a>
+	<div class="collapse navbar-collapse ml-3" id="mainNavbar">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
+    <div class="my-2 my-lg-0"></div>
+	</div>
+</nav>
+<div [ngClass]="" class="maincontent container-fluid mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col">
+          <h5 class="text-secondary">Menu</h5>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <div class="list-group">
+                  <a href="#" routerLinkActive="active" [routerLink]="['/admin/productcategories']" class="list-group-item list-group-item-action">Product Categories</a>
+                  <a href="#" routerLinkActive="active" [routerLink]="['/admin/products']" class="list-group-item list-group-item-action">Products</a>
+                  <a href="#" routerLinkActive="active" [routerLink]="['/admin/invoices']" class="list-group-item list-group-item-action">Invoices</a>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+        <router-outlet class="mt-2" style="height: 100%;"></router-outlet>
+    </div>
+  </div>
+</div>
